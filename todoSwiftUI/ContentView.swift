@@ -9,13 +9,36 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView() {
+            Text("Main area")
+                .navigationBarTitle("ToDoリスト", displayMode: .inline)
+                .navigationBarItems(trailing: Button(action: {
+                    print("pushed");
+                }, label: {
+                    Image(systemName: "plus")
+                        .foregroundColor(.white)
+                }))
+        }
+    }
+
+    init() {
+        setUpNavigationBar();
+    }
+
+    func setUpNavigationBar() {
+        let appearance = UINavigationBarAppearance();
+        appearance.configureWithOpaqueBackground();
+        appearance.backgroundColor = UIColor.systemIndigo;
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white];
+
+        UINavigationBar.appearance().standardAppearance = appearance;
+        UINavigationBar.appearance().compactAppearance = appearance;
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance;
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().previewDevice("iPhone 12 Pro")
     }
 }
