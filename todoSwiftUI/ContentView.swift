@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var text: String = "";
+    @State var isAlertShown: Bool = false;
+
     init() {
         setUpNavigationBar();
     }
@@ -35,10 +38,19 @@ struct ContentView: View {
                 }))
         }
         .background(Color(.red))
+        TextFieldAlertView(
+            text: $text,
+            isShown: $isAlertShown,
+            onDismiss: {
+                // TODO: should impl
+                print(text);
+                text = "";
+            }
+        )
     }
 
     func handleAddButtonPressed() {
-        print("pushed");
+        isAlertShown = true;
     }
 }
 
