@@ -8,19 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        NavigationView() {
-            Text("Main area")
-                .navigationBarTitle("ToDoリスト", displayMode: .inline)
-                .navigationBarItems(trailing: Button(action: {
-                    print("pushed");
-                }, label: {
-                    Image(systemName: "plus")
-                        .foregroundColor(.white)
-                }))
-        }
-    }
-
     init() {
         setUpNavigationBar();
     }
@@ -34,6 +21,24 @@ struct ContentView: View {
         UINavigationBar.appearance().standardAppearance = appearance;
         UINavigationBar.appearance().compactAppearance = appearance;
         UINavigationBar.appearance().scrollEdgeAppearance = appearance;
+    }
+
+    var body: some View {
+        NavigationView() {
+            TodoTableView()
+                .navigationBarTitle("ToDoリスト", displayMode: .inline)
+                .navigationBarItems(trailing: Button(action: {
+                    handleAddButtonPressed();
+                }, label: {
+                    Image(systemName: "plus")
+                        .foregroundColor(.white)
+                }))
+        }
+        .background(Color(.red))
+    }
+
+    func handleAddButtonPressed() {
+        print("pushed");
     }
 }
 
