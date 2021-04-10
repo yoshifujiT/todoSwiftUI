@@ -11,9 +11,13 @@ struct ContentView: View {
     @State var text: String = "";
     @State var isAlertShown: Bool = false;
     @State var todoList: [String] = [];
+    var userDefaults = UserDefaults.standard;
 
     init() {
         setUpNavigationBar();
+        if let storedDataList = userDefaults.array(forKey: "todoList") as? [String] {
+            _todoList = State(initialValue: storedDataList);
+        }
     }
 
     func setUpNavigationBar() {
@@ -29,7 +33,10 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView() {
-            TodoTableView(todoList: $todoList)
+            TodoTableView(
+                todoList: $todoList,
+                onDelete: handleTodoItemDeleted
+            )
                 .navigationBarTitle("ToDoリスト", displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
                     handleAddButtonPressed();
@@ -44,6 +51,7 @@ struct ContentView: View {
             isShown: $isAlertShown,
             onDismiss: {
                 todoList.insert(text, at: 0);
+                userDefaults.set(todoList, forKey: "todoList");
                 text = "";
             }
         )
@@ -51,6 +59,10 @@ struct ContentView: View {
 
     func handleAddButtonPressed() {
         isAlertShown = true;
+    }
+
+    func handleTodoItemDeleted(newTodoList: [String]) {
+        userDefaults.set(newTodoList, forKey: "todoList");
     }
 }
 

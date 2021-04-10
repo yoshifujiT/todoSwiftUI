@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TodoTableView: View {
     @Binding var todoList: [String];
+    var onDelete: (_ newTodoList: [String]) -> Void;
 
     var body: some View {
         List {
@@ -23,7 +24,12 @@ struct TodoTableView: View {
 
     func removeRow(offset: IndexSet) {
         todoList.remove(atOffsets: offset)
+        onDelete(todoList);
     }
+}
+
+func onDeleteSample(newTodoList: [String]) {
+    print(newTodoList)
 }
 
 struct TodoTableView_Previews: PreviewProvider {
@@ -31,7 +37,8 @@ struct TodoTableView_Previews: PreviewProvider {
         TodoTableView(
             todoList: .constant(
                 ["example1", "example2", "example3"]
-            )
+            ),
+            onDelete: onDeleteSample
         )
     }
 }
