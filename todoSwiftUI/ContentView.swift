@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State var text: String = "";
     @State var isAlertShown: Bool = false;
+    @State var todoList: [String] = [];
 
     init() {
         setUpNavigationBar();
@@ -28,7 +29,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView() {
-            TodoTableView()
+            TodoTableView(todoList: $todoList)
                 .navigationBarTitle("ToDoリスト", displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
                     handleAddButtonPressed();
@@ -42,8 +43,7 @@ struct ContentView: View {
             text: $text,
             isShown: $isAlertShown,
             onDismiss: {
-                // TODO: should impl
-                print(text);
+                todoList.insert(text, at: 0);
                 text = "";
             }
         )

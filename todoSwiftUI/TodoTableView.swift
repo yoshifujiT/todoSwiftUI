@@ -8,19 +8,31 @@
 import SwiftUI
 
 struct TodoTableView: View {
-    @State var todoList: [String] = [];
+    @Binding var todoList: [String];
 
     var body: some View {
-        List(todoList, id: \.self) { todoItem in
-            Text(todoItem)
+        List {
+            ForEach(todoList, id: \.self) { todoItem in
+                Text(todoItem)
+            }
+            .onDelete(perform: removeRow)
         }
         .listStyle(PlainListStyle())
+        .animation(.default)
+    }
+
+    func removeRow(offset: IndexSet) {
+        todoList.remove(atOffsets: offset)
     }
 }
 
 struct TodoTableView_Previews: PreviewProvider {
     static var previews: some View {
-        TodoTableView()
+        TodoTableView(
+            todoList: .constant(
+                ["example1", "example2", "example3"]
+            )
+        )
     }
 }
 
